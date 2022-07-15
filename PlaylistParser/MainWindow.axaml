@@ -1,0 +1,42 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="PlaylistParser.MainWindow"
+        Title="PlaylistParser">
+	<Window.Styles>
+		<Style Selector="TextBox.Header">
+			<Setter Property="Watermark" Value="Enter the url"/>
+		</Style>
+	</Window.Styles>
+     <Grid RowDefinitions="Auto,*">
+		 <!-- UrlBar -->
+		 <Grid Grid.Row="0" Background="LightGray" Height="60">
+			 <TextBox Classes="Header" Name="urlForParseBox" Height="30" Width="700" HorizontalAlignment="Left">
+				 
+			</TextBox>
+			 <Button Name="parseUrlButton" HorizontalAlignment="Right" Height="30" Width="200" Content="Show how can it look like"/>
+		 </Grid>
+		 <!-- Main Bar -->
+		 <Grid Grid.Row="1" ColumnDefinitions="*,*">
+			 <Grid Grid.Column="0" Background="Gray" RowDefinitions="*,Auto,Auto" >
+				 <Image Grid.Row="0" Source="/Assets/stepan_bandera.jpg" Name="AlbumAvatar" IsVisible="False" Height="300" Width="300" HorizontalAlignment="Center"/>
+				 <TextBlock Grid.Row="1" Name="albumName" Height="30" Background="White" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+				 <TextBlock Grid.Row="2" Name="descriptionOfAlbum"  Height=" 60" Background="White" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"/>
+			</Grid>
+			 <Grid Grid.Column="1">
+				 <StackPanel>
+					<DataGrid Background="Aqua" AutoGenerateColumns="True" Margin ="8" Items ="{Binding SongInformation}" Height="540" Width="600" HorizontalAlignment="Center" Name="songsDataGrid">
+						<DataGrid.Columns>
+							<DataGridTextColumn Header ="Song Name" Binding="{Binding SongName}" Width="2*"/>
+							<DataGridTextColumn Header ="Artist Name" Binding="{Binding ArtistName}" Width ="2*"/>
+							<DataGridTextColumn Header ="Album Name" Binding="{Binding Album}" Width="2*"/>
+							<DataGridTextColumn Header ="Duration" Binding="{Binding Duration}" Width="2*"/>
+						</DataGrid.Columns>
+					</DataGrid>
+				</StackPanel>
+			</Grid>
+		</Grid>
+     </Grid>
+</Window>
