@@ -2,12 +2,12 @@
 using Avalonia.Interactivity;
 using System.Collections.Generic;
 using Avalonia.Collections;
+using PlaylistParser.XPathsClasses;
 
 namespace PlaylistParser
 {
     public partial class MainWindow : Window
     {
-        public string imagePath = "Image/AlbumAvatar.jpg";
         public MainWindow()
         {
             InitializeComponent();
@@ -15,59 +15,35 @@ namespace PlaylistParser
             startButton.Click += startButton_Click;
 
         }
-
         private void startButton_Click(object? sender, RoutedEventArgs e)
         {
-            //HtmlHelper htmlHelper = new HtmlHelper();
-            //string url = urlForParseBox.Text;
-            //songs = htmlHelper.GetSongsInformation(url);
-            //collectionView = new DataGridCollectionView(songs);
-            //songsDataGrid.Items = collectionView;
-            PlaylistInformation playlistPresentation = new PlaylistInformation();
-            playlistPresentation.PlaylistName = "ПЛЕЙЛИСТ ДЛЯ ЗНИЩЕННЯ ОРКІВ";
-            albumName.Text = playlistPresentation.PlaylistName;
-            playlistPresentation.Description = $"НАША РУСОФОБІЯ НЕДОСТАТНЯ, ПІДВИЩИТИ ЇЇ МОЖНА ПОСЛУХАВШИ {playlistPresentation.PlaylistName}";
-            descriptionOfAlbum.Text = playlistPresentation.Description;
-            playlistPresentation.SongInfo = UpdateDataGrid();
-            DataGridCollectionView dg = new DataGridCollectionView(playlistPresentation.SongInfo);
-            songsDataGrid.Items = dg;
-            AlbumAvatar.IsVisible = true;
-        }
-    
-        public List<SongInformation> UpdateDataGrid()
-        {
-            List<SongInformation> songs = new List<SongInformation>()
+            if (urlForParseBox.Text.Contains("album"))
             {
-                new SongInformation()
-                {
-                    SongName = "Батько наш Бандера",
-                    ArtistName = "Олег Луцан",
-                    AlbumName = "Файний альбом",
-                    Duration = "2:41"
-                },
-                new SongInformation()
-                {
-                    SongName = "Гімп УПА",
-                    ArtistName = "Тінь Сонця",
-                    AlbumName = "Мальовничий альбом",
-                    Duration = "2:40"
-                },
-                new SongInformation()
-                {
-                    SongName = "Сон",
-                    ArtistName = "Степан Гіга",
-                    AlbumName = "Романтичний альбом",
-                    Duration = "2:49"
-                },
-                new SongInformation()
-                {
-                    SongName = "В мене немає дому",
-                    ArtistName = "Один в каное",
-                    AlbumName = "Драматичний альбом",
-                    Duration = "2:41"
-                },
-            };
-            return songs;
+                songsDataGrid.Columns[1].IsVisible = false;
+                songsDataGrid.Columns[2].IsVisible = false;
+                HtmlParser<AppleMusicXPaths> xPath = new HtmlParser<AppleMusicXPaths>(new AppleMusicXPaths());
+                string url = urlForParseBox.Text;
+                PlaylistInformation pi = xPath.Parse(url);
+                DataGridCollectionView collectionView = new DataGridCollectionView(pi.SongInfo);
+                songsDataGrid.Items = collectionView;
+                AlbumAvatar.Source = pi.PlayListAvatar;
+                descriptionOfAlbum.Text = pi.Description;
+                albumName.Text = pi.PlaylistName;
+                albumName.Text += string.Format("\n {0}", pi.SongInfo[3].ArtistName);
+            }
+            else
+            {
+                songsDataGrid.Columns[1].IsVisible = true;
+                songsDataGrid.Columns[2].IsVisible = true;
+                HtmlParser<AppleMusicXPaths> xPath = new HtmlParser<AppleMusicXPaths>(new AppleMusicXPaths());
+                string url = urlForParseBox.Text;
+                PlaylistInformation pi = xPath.Parse(url);
+                DataGridCollectionView collectionView = new DataGridCollectionView(pi.SongInfo);
+                songsDataGrid.Items = collectionView;
+                AlbumAvatar.Source = pi.PlayListAvatar;
+                descriptionOfAlbum.Text = pi.Description;
+                albumName.Text = pi.PlaylistName;
+            }
         }
     }
 }

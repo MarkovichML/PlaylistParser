@@ -12,7 +12,7 @@
 	</Window.Styles>
      <Grid RowDefinitions="Auto,*">
 		 <!-- UrlBar -->
-		 <Grid Grid.Row="0" Background="LightGray" Height="60">
+		 <Grid Grid.Row="0" Background="LightGray" Height="80">
 			 <TextBox Classes="Header" Name="urlForParseBox" Height="30" Width="700" HorizontalAlignment="Left">
 				 
 			</TextBox>
@@ -20,18 +20,18 @@
 		 </Grid>
 		 <!-- Main Bar -->
 		 <Grid Grid.Row="1" ColumnDefinitions="*,*">
-			 <Grid Grid.Column="0" Background="Gray" RowDefinitions="*,Auto,Auto" >
-				 <Image Grid.Row="0" Source="/Assets/stepan_bandera.jpg" Name="AlbumAvatar" IsVisible="False" Height="300" Width="300" HorizontalAlignment="Center"/>
-				 <TextBlock Grid.Row="1" Name="albumName" Height="30" Background="White" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-				 <TextBlock Grid.Row="2" Name="descriptionOfAlbum"  Height=" 60" Background="White" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"/>
+			 <Grid Grid.Column="0" Background="Gray" RowDefinitions="*,Auto,Auto">
+				 <Image Name="AlbumAvatar" Source="{Binding PlayListAvatar}" Width="1000" Height="1000" Stretch="None"/>
+				 <TextBlock Grid.Row="1" Name="albumName"  Height="60" Background="White" HorizontalAlignment="Center" TextWrapping="Wrap" FontSize="20" TextAlignment="Center"/>
+				 <TextBlock Grid.Row="2" Name="descriptionOfAlbum"  Height=" 150" Background="White" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"/>
 			</Grid>
 			 <Grid Grid.Column="1">
 				 <StackPanel>
-					<DataGrid Background="Aqua" AutoGenerateColumns="True" Margin ="8" Items ="{Binding SongInformation}" Height="540" Width="600" HorizontalAlignment="Center" Name="songsDataGrid">
+					<DataGrid Background="Aqua" Margin ="8" Items ="{Binding SongInformation}" Height="540" Width="600" HorizontalAlignment="Center" Name="songsDataGrid">
 						<DataGrid.Columns>
-							<DataGridTextColumn Header ="Song Name" Binding="{Binding SongName}" Width="2*"/>
+							<DataGridTextColumn Header ="Song Name" Binding="{Binding SongName}" Width="2*" />
 							<DataGridTextColumn Header ="Artist Name" Binding="{Binding ArtistName}" Width ="2*"/>
-							<DataGridTextColumn Header ="Album Name" Binding="{Binding Album}" Width="2*"/>
+							<DataGridTextColumn Header ="Album Name" Binding="{Binding AlbumName}" Width="2*"/>
 							<DataGridTextColumn Header ="Duration" Binding="{Binding Duration}" Width="2*"/>
 						</DataGrid.Columns>
 					</DataGrid>
